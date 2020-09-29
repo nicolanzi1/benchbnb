@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+console.log(process.env);
+
+
 import Root from './components/root';
 import configureStore from './store/store';
 
