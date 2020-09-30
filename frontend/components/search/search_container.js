@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { fetchBenches } from '../../actions/bench_actions'
+import { updateFilter } from '../../actions/filter_actions'
 import { asArray } from '../../reducers/selectors';
 import BenchIndex from './bench_index';
 
@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchBenches: dispatch(fetchBenches)
+    updateFilter: (filter, value) => dispatch(updateFilter(filter, value))
 });
 
 export default connect(

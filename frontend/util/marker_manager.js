@@ -1,11 +1,21 @@
 export default class MarkerManager {
     constructor(map) {
         this.map = map;
+        this.handleClick = this.handleClick;
         this.markers = {};
     }
 
     updateMarkers(benches) {
-        console.log("time to update");
+        const benchesObj = {};
+        benches.forEach(bench => benchesObj[bench.id] = bench);
+
+        benches
+            .filter(bench => !this.markers[bench.id])
+            .forEach(newBench => this.createMarkerFromBench(newBench, this.handleClick))
+
+        Object.keys(this.markers)
+            .filter(benchId => !benchesObj[benchId])
+            .forEach((benchId) => this.removeMarker(this.markers[benchId]))
     }
 
     createMarkerFromBench(bench) {
@@ -16,6 +26,12 @@ export default class MarkerManager {
             benchId: bench.id
         });
 
+        marker.addListener('click', () => this.handleClick(bench));
         this.markers[marker.benchId] = marker;
+    }
+
+    removeMarker(marker) {
+        this.markers[marker.benchId].setMao(null);
+        delete this.markers[marker.benchId];
     }
 }
