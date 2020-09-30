@@ -7,7 +7,7 @@ import GreetingContainer from './greeting/greeting_container';
 import SignupFormContainer from './session_form/signup_form_container';
 import LoginFormContainer from './session_form/login_form_container';
 import { AuthRoute } from '../util/route_util';
-import BenchIndexContainer from './bench_index_container';
+import SearchContainer from './search/search_container';
 
 const App = () => (
     <div>
@@ -17,7 +17,7 @@ const App = () => (
         </header>
             <AuthRoute path="/login" component={LoginFormContainer} />
             <AuthRoute path="/signup" component={SignupFormContainer} />
-            <Route exact path="/" component={BenchIndexContainer} />
+            <Route exact path="/" component={SearchContainer} />
     </div>
 );
 
