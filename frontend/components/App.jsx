@@ -12,6 +12,7 @@ import GreetingContainer from './greeting/greeting_container';
 import SignUpFormContainer from './session_form/signup_form_container';
 import LoginFormContainer from './session_form/login_form_container';
 import SearchContainer from './search/search_container';
+import BenchShowContainer from './bench_show/bench_show_container';
 import BenchFormContainer from './bench_form/bench_form_container';
 import { AuthRoute, ProtectedRoute } from '../util/route_util';
 
@@ -27,6 +28,7 @@ const App = () => (
             <AuthRoute path="/login" component={LoginFormContainer} />
             <AuthRoute path="/signup" component={SignUpFormContainer} />
             <ProtectedRoute exact path="/benches/new" component={BenchFormContainer} />
+            <Route path="/benches/:benchId" component={BenchShowContainer} />
             <Route exact path="/" component={SearchContainer} />
         </Switch>
     </div>
