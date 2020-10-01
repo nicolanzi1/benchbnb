@@ -1,5 +1,6 @@
 json.bench do
     json.partial! '/api/benches/bench', bench: @bench
+    json.reviewIds @bench.reviews.pluck(:id)
 end
 
 @bench.reviews.includes(:author).each do |review|
