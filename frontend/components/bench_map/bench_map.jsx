@@ -21,13 +21,23 @@ class BenchMap extends Component {
     componentDidMount() {
         const map = this.refs.map;
         this.map = new google.maps.Map(map, mapOptions);
-        this.MarkerManager = new MarkerManager(this.map);
-        this.registerListeners();
-        this.MarkerManager.updateMarkers(this.props.benches);
+        this.MarkerManager = new MarkerManager(this.map, this.handleMarkerClick.bind(this));
+        if (this.props.singleBench) {
+            this.props.fetchBench(this.props.benchId);
+        } else {
+            this.registerListeners();
+            this.MarkerManager.updateMarkers(this.props.benches);
+        }
     }
 
     componentDidUpdate() {
-        this.MarkerManager.updateMarkers(this.props.benches);
+        if (this.props.singleBench) {
+            const targetBenchKey = Object.keys(this.props.benches)[0];
+            const targetBench = this.props.benches[targetBenchKey];
+            this.MarkerManager.updateMarkers([targetBench]);
+        } else {
+            this.MarkerManager.updateMarkers(this.props.benches);
+        }
     }
 
     registerListeners() {

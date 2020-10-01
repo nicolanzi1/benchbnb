@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import { withRouter } from 'react-router-dom';
 
+import BenchShowContainer from '../bench_show/bench_show_container';
+
 class IndexItem extends Component {
     constructor(props) {
         super(props);
@@ -13,14 +15,19 @@ class IndexItem extends Component {
     }
 
     render() {
-        const { description } = this.props.bench;
+        const { description, average_rating } = this.props.bench;
         return (
             <div
                 className="bench-index-item"
                 onClick={this.handleClick}
             >
                 <div className="index-item-info">
+                    <span className="index-item-category">Rating:</span>
+                    <span className="index-item-copy">
+                        {average_rating || 'No reviews yet'}
+                    </span>
                     <span className="index-item-category">Description:</span>
+                    <span className="index-item-copy">{description}</span>
                 </div>
             </div>
         );

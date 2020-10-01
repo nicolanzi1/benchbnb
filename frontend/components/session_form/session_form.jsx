@@ -7,7 +7,6 @@ class SessionForm extends Component {
             username: '',
             password: ''
         };
-
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
