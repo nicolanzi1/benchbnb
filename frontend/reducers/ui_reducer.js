@@ -1,7 +1,7 @@
-import { combineReducers } from 'react-redux';
+import { combineReducers } from 'redux';
 
-import filter from './filter_reducer';
+import filters from './filters_reducer';
 
 export default combineReducers({
-    filter
+    filters
 });

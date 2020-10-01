@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import { updateFilter } from '../../actions/filter_actions'
 import { asArray } from '../../reducers/selectors';
-import BenchIndex from './bench_index';
+import Search from './bench_index';
 
 const mapStateToProps = state => ({
     benches: asArray(state.entities),
@@ -15,4 +15,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(BenchIndex);
+)(Search);
