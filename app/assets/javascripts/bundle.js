@@ -430,10 +430,13 @@ var BenchForm = /*#__PURE__*/function (_Component) {
     };
     _this.state = {
       description: '',
-      seating: 2
+      seating: 2,
+      photoFile: null,
+      photoUrl: null
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.navigateToSearch = _this.navigateToSearch.bind(_assertThisInitialized(_this));
+    _this.handleFile = _this.handleFile.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -452,6 +455,25 @@ var BenchForm = /*#__PURE__*/function (_Component) {
       };
     }
   }, {
+    key: "handleFile",
+    value: function handleFile(e) {
+      var _this3 = this;
+
+      var file = e.currentTarget.files[0];
+      var fileReader = new FileReader();
+
+      fileReader.onloadend = function () {
+        _this3.setState({
+          photoFile: file,
+          photoUrl: fileReader.result
+        });
+      };
+
+      if (file) {
+        fileReader.readAsDataURL(file);
+      }
+    }
+  }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
@@ -460,6 +482,11 @@ var BenchForm = /*#__PURE__*/function (_Component) {
       formData.append('bench[seating]', this.state.seating);
       formData.append('[bench[lat]', this.coords['lat']);
       formData.append('[bench[lng]', this.coords['lng']);
+
+      if (this.state.photoFile) {
+        formData.append('bench[photo]', this.state.photoFile);
+      }
+
       this.props.createBench(formData);
       this.navigateToSearch();
     }
@@ -472,6 +499,11 @@ var BenchForm = /*#__PURE__*/function (_Component) {
       var _this$coords = this.coords,
           lat = _this$coords.lat,
           lng = _this$coords.lng;
+      var preview = this.state.photoUrl ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        height: "200px",
+        width: "200px",
+        src: this.state.photoUrl
+      }) : null;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "new-bench-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -509,7 +541,15 @@ var BenchForm = /*#__PURE__*/function (_Component) {
         disabled: true,
         value: lng,
         className: "bench-field"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-holder"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Image preview "), preview, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "button-holder"
+      }, "Add a Picture"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "file",
+        className: "new-bench-button",
+        onChange: this.handleFile.bind(this)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button-holder"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
@@ -733,14 +773,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _review_list_item_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./review_list_item_container */ "./frontend/components/bench_show/review_list_item_container.jsx");
 
 
+
+
+var reviewList = function reviewList(reviews) {
+  return reviews.map(function (review) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_review_list_item_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      review: review,
+      key: review.id
+    });
+  });
+};
 
 var BenchDetail = function BenchDetail(_ref) {
-  var bench = _ref.bench;
+  var bench = _ref.bench,
+      reviews = _ref.reviews;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
     className: "bench-list"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Description: ", bench.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Seats: ", bench.seating), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Latitude: ", bench.lat), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Longitude: ", bench.lng)));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "index-image",
+    src: bench.picture_url
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Rating: ", bench.average_rating || 'No reviews yet'), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Description: ", bench.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Seats: ", bench.seating), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Latitude: ", bench.lat), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Longitude: ", bench.lng)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "reviews"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Reviews"), reviewList(reviews)));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (BenchDetail);
@@ -777,7 +834,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var BenchShow = function BenchShow(_ref) {
   var bench = _ref.bench,
       benchId = _ref.benchId,
-      fetchBench = _ref.fetchBench;
+      fetchBench = _ref.fetchBench,
+      reviews = _ref.reviews;
 
   var benches = _defineProperty({}, benchId, bench);
 
@@ -790,6 +848,7 @@ var BenchShow = function BenchShow(_ref) {
   }, "Back to the Benches Index"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bench_map_bench_map__WEBPACK_IMPORTED_MODULE_3__["default"], {
     benches: benches,
     benchId: benchId,
+    singleBench: true,
     fetchBench: fetchBench
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "right-half bench-details"
@@ -821,7 +880,9 @@ var BenchShow = function BenchShow(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_bench_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/bench_actions */ "./frontend/actions/bench_actions.js");
-/* harmony import */ var _bench_show__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./bench_show */ "./frontend/components/bench_show/bench_show.jsx");
+/* harmony import */ var _reducers_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../reducers/selectors */ "./frontend/reducers/selectors.js");
+/* harmony import */ var _bench_show__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bench_show */ "./frontend/components/bench_show/bench_show.jsx");
+
 
 
 
@@ -829,10 +890,12 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, _ref) {
   var match = _ref.match;
   var benchId = parseInt(match.params.benchId);
-  var bench = selectBench(state.entities, benchId);
+  var bench = Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_2__["selectBench"])(state.entities, benchId);
+  var reviews = Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_2__["selectReviewsForBench"])(state.entities, bench);
   return {
     benchId: benchId,
-    bench: bench
+    bench: bench,
+    reviews: reviews
   };
 };
 
@@ -844,7 +907,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_bench_show__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_bench_show__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
@@ -989,6 +1052,41 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(null, mapDispatchToProps)(_review_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/bench_show/review_list_item_container.jsx":
+/*!***********************************************************************!*\
+  !*** ./frontend/components/bench_show/review_list_item_container.jsx ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+
+
+var Review = function Review(_ref) {
+  var review = _ref.review,
+      author = _ref.author;
+  var rating = review.rating,
+      body = review.body;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Rating: ", rating), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, body, " - by ", author.username)));
+};
+
+var mapStateToProps = function mapStateToProps(_ref2, _ref3) {
+  var users = _ref2.entities.users;
+  var review = _ref3.review;
+  return {
+    author: users[review.author.id]
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(Review));
 
 /***/ }),
 

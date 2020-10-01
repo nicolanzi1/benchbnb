@@ -7,7 +7,7 @@ import ReviewFormContainer from './review_form_container';
 import { ProtectedRoute } from '../../util/route_util';
 import { ReviewLink } from '../../util/link_util';
 
-const BenchShow = ({ bench, benchId, fetchBench }) => {
+const BenchShow = ({ bench, benchId, fetchBench, reviews }) => {
     const benches = {
         [benchId]: bench
     };
@@ -19,6 +19,7 @@ const BenchShow = ({ bench, benchId, fetchBench }) => {
                 <BenchMap
                     benches={benches}
                     benchId={benchId}
+                    singleBench={true}
                     fetchBench={fetchBench}
                 />
             </div>

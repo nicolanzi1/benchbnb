@@ -8,12 +8,17 @@ class Api::BenchesController < ApplicationController
       benches = benches.where(seating: seating_range)
     end
 
+    @benches = benches.includes(:reviews)
     render :index
+  end
+
+  def show
+    @bench = Bench.fin(params[:id])
   end
 
   def create
     @bench = Bench.create!(bench_params)
-    render @bench
+    render :show
   end
 
   private
@@ -23,7 +28,7 @@ class Api::BenchesController < ApplicationController
   end
 
   def bench_params
-    params.require(:bench).permit(:description, :lat, :lng, :seating)
+    params.require(:bench).permit(:description, :lat, :lng, :seating, :photo)
   end
 
   def bounds
