@@ -1,8 +1,8 @@
-export const fetchBenches = filter => (
+export const fetchBenches = data => (
     $.ajax({
         url: 'api/benches',
         method: 'GET',
-        filter
+        data
     })
 );
 
@@ -10,6 +10,14 @@ export const fetchBench = id => (
     $.ajax({
         url: `api/benches/${id}`,
         method: 'GET'
+    })
+);
+
+export const createReview = review => (
+    $.ajax({
+        url: 'api/reviews',
+        method: 'POST',
+        data: { review }
     })
 );
 
