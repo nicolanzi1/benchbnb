@@ -778,7 +778,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    benches: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_2__["asArray"])(state.entities)
+    benches: Object(_reducers_selectors__WEBPACK_IMPORTED_MODULE_2__["asArray"])(state.entities),
+    minSeating: state.ui.filters.minSeating,
+    maxSeating: state.ui.filters.maxSeating
   };
 };
 

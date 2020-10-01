@@ -20,7 +20,7 @@ const mapOptions ={
 class BenchMap extends Component {
     componentDidMount() {
         const map = this.refs.map;
-        this.map = new google.maps.Map(mapDOMNode, mapOptions);
+        this.map = new google.maps.Map(map, mapOptions);
         this.MarkerManager = new MarkerManager(this.map);
         this.registerListeners();
         this.MarkerManager.updateMarkers(this.props.benches);
@@ -44,6 +44,10 @@ class BenchMap extends Component {
         });
     }
 
+    handleMarkerClick(bench) {
+        this.props.history.push(`benches/${bench.id}`);
+    }
+
     handleClick(coords) {
         this.props.history.push({
             pathname: 'benches/new',
@@ -53,7 +57,7 @@ class BenchMap extends Component {
 
     render() {
         return (
-            <div className="map" ref={ map => this.mapNode = map }>
+            <div className="map" ref="map">
                 Map
             </div>
         );

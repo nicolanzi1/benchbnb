@@ -6,6 +6,8 @@ import Search from './bench_index';
 
 const mapStateToProps = state => ({
     benches: asArray(state.entities),
+    minSeating: state.ui.filters.minSeating,
+    maxSeating: state.ui.filters.maxSeating
 });
 
 const mapDispatchToProps = dispatch => ({
