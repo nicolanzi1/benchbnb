@@ -1297,7 +1297,8 @@ var IndexItem = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this$props$bench = this.props.bench,
           description = _this$props$bench.description,
-          average_rating = _this$props$bench.average_rating;
+          average_rating = _this$props$bench.average_rating,
+          picture_url = _this$props$bench.picture_url;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "bench-index-item",
         onClick: this.handleClick
@@ -1311,7 +1312,9 @@ var IndexItem = /*#__PURE__*/function (_Component) {
         className: "index-item-category"
       }, "Description:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "index-item-copy"
-      }, description)));
+      }, description)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: picture_url
+      }));
     }
   }]);
 

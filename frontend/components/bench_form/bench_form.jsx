@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 class BenchForm extends Component {
     constructor(props) {
         super(props);
-        this.coords = { lat: props.lat, lng: props.lng }
+        this.coords = { lat: props.lat, lng: props.lng };
         this.state = {
             description: '',
             seating: 2,

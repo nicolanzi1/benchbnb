@@ -15,7 +15,7 @@ class IndexItem extends Component {
     }
 
     render() {
-        const { description, average_rating } = this.props.bench;
+        const { description, average_rating, picture_url } = this.props.bench;
         return (
             <div
                 className="bench-index-item"
@@ -29,6 +29,7 @@ class IndexItem extends Component {
                     <span className="index-item-category">Description:</span>
                     <span className="index-item-copy">{description}</span>
                 </div>
+                <img src={picture_url}/>
             </div>
         );
     }
