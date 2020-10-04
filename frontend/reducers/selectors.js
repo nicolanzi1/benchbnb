@@ -1,8 +1,8 @@
 export const selectBench = ({ benches }, benchId) => {
-    return benches[benchId];
+    return benches[benchId] || { reviewIds: [] };
 };
 
-export const selectReviewsForBench = ({ benches, review }, bench) => {
+export const selectReviewsForBench = ({ benches, reviews }, bench) => {
     return bench.reviewIds.map(reviewId => reviews[reviewId]);
 };
 

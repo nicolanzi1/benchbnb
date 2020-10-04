@@ -29,8 +29,8 @@ export const createReview = review => dispatch => (
     ))
 );
 
-export const fetchBenches = () => dispatch => (
-    APIUtil.fetchBenches.then(benches => (
+export const fetchBenches = filters => dispatch => (
+    APIUtil.fetchBenches(filters).then(benches => (
         dispatch(receiveBenches(benches))
     ))
 );

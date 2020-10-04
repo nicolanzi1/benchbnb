@@ -45,16 +45,16 @@ class SessionForm extends Component {
                     <div className="login-form">
                         <br/>
                         <label>Username:
-                            <input
-                                type="text"
+                            <input type="text"
+                                value={this.state.username}
                                 onChange={this.update('username')}
                                 className="login-input"
                             />
                         </label>
                         <br/>
                         <label>Password:
-                            <input
-                                type="password"
+                            <input type="password"
+                                value={this.state.password}
                                 onChange={this.update('password')}
                                 className="login-input"
                             />

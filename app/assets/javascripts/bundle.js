@@ -145,9 +145,9 @@ var createReview = function createReview(review) {
     });
   };
 };
-var fetchBenches = function fetchBenches() {
+var fetchBenches = function fetchBenches(filters) {
   return function (dispatch) {
-    return _util_bench_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchBenches"].then(function (benches) {
+    return _util_bench_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchBenches"](filters).then(function (benches) {
       return dispatch(receiveBenches(benches));
     });
   };
@@ -194,7 +194,7 @@ var changeFilter = function changeFilter(filter, value) {
 var updateFilter = function updateFilter(filter, value) {
   return function (dispatch, getState) {
     dispatch(changeFilter(filter, value));
-    return Object(_bench_actions__WEBPACK_IMPORTED_MODULE_0__["fetchBenches"])(getState().filters)(dispatch);
+    return Object(_bench_actions__WEBPACK_IMPORTED_MODULE_0__["fetchBenches"])(getState().ui.filters)(dispatch);
   };
 };
 
@@ -294,11 +294,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (window.currentUser) {
     var preloadedState = {
-      entities: {
-        users: _defineProperty({}, window.currentUser.id, window.currentUser)
-      },
       session: {
         id: window.currentUser.id
+      },
+      entities: {
+        users: _defineProperty({}, window.currentUser.id, window.currentUser)
       }
     };
     store = Object(_store_store__WEBPACK_IMPORTED_MODULE_3__["default"])(preloadedState);
@@ -772,7 +772,7 @@ var BenchMap = /*#__PURE__*/function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _review_list_item_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./review_list_item_container */ "./frontend/components/bench_show/review_list_item_container.jsx");
 
 
@@ -845,7 +845,7 @@ var BenchShow = function BenchShow(_ref) {
     className: "single-bench-map"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/"
-  }, "Back to the Benches Index"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bench_map_bench_map__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, "Back to Benches Index"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_bench_map_bench_map__WEBPACK_IMPORTED_MODULE_3__["default"], {
     benches: benches,
     benchId: benchId,
     singleBench: true,
@@ -1082,7 +1082,7 @@ var mapStateToProps = function mapStateToProps(_ref2, _ref3) {
   var users = _ref2.entities.users;
   var review = _ref3.review;
   return {
-    author: users[review.author.id]
+    author: users[review.author_id]
   };
 };
 
@@ -1500,10 +1500,12 @@ var SessionForm = /*#__PURE__*/function (_Component) {
         className: "login-form"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Username:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        value: this.state.username,
         onChange: this.update('username'),
         className: "login-input"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Password:", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
+        value: this.state.password,
         onChange: this.update('password'),
         className: "login-input"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -1770,11 +1772,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "asArray", function() { return asArray; });
 var selectBench = function selectBench(_ref, benchId) {
   var benches = _ref.benches;
-  return benches[benchId];
+  return benches[benchId] || {
+    reviewIds: []
+  };
 };
 var selectReviewsForBench = function selectReviewsForBench(_ref2, bench) {
   var benches = _ref2.benches,
-      review = _ref2.review;
+      reviews = _ref2.reviews;
   return bench.reviewIds.map(function (reviewId) {
     return reviews[reviewId];
   });
@@ -1902,7 +1906,7 @@ var usersReducer = function usersReducer() {
       return Object.assign({}, state, _defineProperty({}, action.currentUser.id, action.currentUser));
 
     case _actions_bench_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_REVIEW"]:
-      return Object.assign({}, state, _defineProperty({}, action.currentUser.id, action.currentUser));
+      return Object.assign({}, state, _defineProperty({}, action.author.id, action.author));
 
     case _actions_bench_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_BENCH"]:
       return Object.assign({}, state, action.authors);
@@ -2039,11 +2043,11 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var MarkerManager = /*#__PURE__*/function () {
-  function MarkerManager(map) {
+  function MarkerManager(map, handleClick) {
     _classCallCheck(this, MarkerManager);
 
     this.map = map;
-    this.handleClick = this.handleClick;
+    this.handleClick = handleClick;
     this.markers = {};
   }
 
@@ -2086,7 +2090,7 @@ var MarkerManager = /*#__PURE__*/function () {
   }, {
     key: "removeMarker",
     value: function removeMarker(marker) {
-      this.markers[marker.benchId].setMao(null);
+      this.markers[marker.benchId].setMap(null);
       delete this.markers[marker.benchId];
     }
   }]);
@@ -2155,8 +2159,8 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-var AuthRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, null)(Auth));
-var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, null)(Protected));
+var AuthRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(Auth));
+var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(Protected));
 
 /***/ }),
 

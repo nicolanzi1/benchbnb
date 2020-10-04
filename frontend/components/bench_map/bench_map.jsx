@@ -9,7 +9,7 @@ const getCoordsObj = latLng => ({
     lng: latLng.lng()
 });
 
-const mapOptions ={
+const mapOptions = {
     center: {
         lat: 37.773972,
         lng: -122.431297

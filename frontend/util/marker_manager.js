@@ -1,7 +1,7 @@
 export default class MarkerManager {
-    constructor(map) {
+    constructor(map, handleClick) {
         this.map = map;
-        this.handleClick = this.handleClick;
+        this.handleClick = handleClick;
         this.markers = {};
     }
 
@@ -31,7 +31,7 @@ export default class MarkerManager {
     }
 
     removeMarker(marker) {
-        this.markers[marker.benchId].setMao(null);
+        this.markers[marker.benchId].setMap(null);
         delete this.markers[marker.benchId];
     }
 }
